@@ -24,6 +24,6 @@ describe 'ec2hostname::install', :type => :class do
   end
 
   context 'install the init script' do
-    it { should contain_file('/etc/init.d/ec2hostname.rb') }
+    it { should contain_file('/etc/init.d/ec2hostname') }
   end
 end

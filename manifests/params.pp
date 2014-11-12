@@ -14,8 +14,8 @@
 #
 class ec2hostname::params {
 
-  $hostname = ::hostname
-  $domain   = inline_template("<%= domain = @fqdn.split('.'); domain.shift ; domain.join('.') %>")
+  $hostname = $::hostname
+  $domain   = $::domain
   $ttl      = 60
   $type     = 'CNAME'
   $target   = 'local-hostname'

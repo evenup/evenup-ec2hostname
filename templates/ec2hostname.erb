@@ -1,4 +1,4 @@
-#! env ruby
+#!/bin/env ruby
 # chkconfig: 35 99 01
 # description: EC2 DNS registration
 # processname: ec2hostname
@@ -8,8 +8,8 @@ require 'aws-sdk'
 require 'net/http'
 
 hostname = '<%= @hostname %>'
-domain = '<%= @domain_name %>'
-zone = '<%= @zone_id %>'
+domain = '<%= @domain %>'
+zone = '<%= @zone %>'
 ttl = <%= @ttl %>
 type = '<%= @type %>'
 target = '<%= @target %>'

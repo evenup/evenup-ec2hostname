@@ -64,7 +64,7 @@ Whether or not the aws-sdk ruby gem should be installed.  Valid values are true 
 The hostname that should be used for this node.  The default value is 'hostname' from facter.
 
 #####`domain`
-The domain name that should be appended to the hostname.  The default value is all elements after the first segment from the 'fqdn' fact.
+The domain name that should be appended to the hostname.  The default value is 'domain' from facter.
 
 #####`ttl`
 The TTL (in seconds) that should be associated with this record.  Valid values are integers.  The default value is 60.
@@ -87,17 +87,23 @@ Whether or not the ec2hostname service should be enabled at boot.  Valid values 
 It is HIGHLY recommeded to use an IAM user with limited to access for this service.  The permissions needed for this user are:
 
 ```
-    {
-      "Action": [
-        "route53:ChangeResourceRecordSets",
-        "route53:GetHostedZone",
-        "route53:ListResourceRecordSets"
-      ],
-      "Effect": "Allow",
-      "Resource": [
-        [ "arn:aws:route53:::hostedzone/<your hosted zone id>" ]
-      ]
-    }
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "Stmt1415820843000",
+        "Effect": "Allow",
+        "Action": [
+          "route53:ChangeResourceRecordSets",
+          "route53:GetHostedZone",
+          "route53:ListResourceRecordSets"
+        ],
+        "Resource": [
+          "arn:aws:route53:::hostedzone/<your hosted zone id>"
+        ]
+      }
+    ]
+  }
 ```
 
 ##Limitations
