@@ -30,11 +30,11 @@ class ec2hostname::install (
     }
   }
 
-  file { '/etc/init.d/ec2hostname.rb':
+  file { '/etc/init.d/ec2hostname':
     owner   => 'root',
     group   => 'root',
     mode    => '0550',
-    content => template('ec2hostname/ec2hostname.rb'),
+    content => template('ec2hostname/ec2hostname.erb'),
   }
 
 }
