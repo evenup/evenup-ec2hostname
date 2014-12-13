@@ -21,9 +21,10 @@ class ec2hostname::install (
   $type,
   $target,
   $zone,
+  $install_gem = $::ec2hostname::install_gem,
 ) {
 
-  if ( $ec2hostname::install_gem ) {
+  if ( $install_gem ) {
     package { 'aws-sdk':
       ensure   => 'installed',
       provider => 'gem',

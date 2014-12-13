@@ -14,12 +14,13 @@
 #
 class ec2hostname::params {
 
-  $hostname = $::hostname
-  $domain   = $::domain
-  $ttl      = 60
-  $type     = 'CNAME'
-  $target   = 'local-hostname'
-  $service  = 'running'
-  $enable   = true
+  $install_gem = false
+  $hostname    = $::hostname
+  $domain      = $::domain
+  $ttl         = 60
+  $type        = 'CNAME'
+  $target      = 'local-hostname'
+  $service     = 'running'
+  $enable      = true
 
 }
