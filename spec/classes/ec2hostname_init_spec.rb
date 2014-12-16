@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'ec2hostname', :type => :class do
-
+  let(:facts) { { :osfamily => 'RedHat', :operatingsystemmajrelease => '7' } }
   let(:params) { { :aws_key => 'abc', :aws_secret => 'efg', :zone => '123' } }
 
   it { should create_class('ec2hostname') }

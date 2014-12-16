@@ -23,4 +23,39 @@ class ec2hostname::params {
   $service     = 'running'
   $enable      = true
 
+  case $::osfamily {
+    'RedHat': {
+      case $::operatingsystemmajrelease {
+        '6': {
+          $gem_package_deps = [ 'ruby-devel', 'libxml2-devel', 'libxslt-devel' ]
+          $nokogiri_gem_ver = '1.5.11'
+        }
+        '7': {
+          $gem_package_deps = [ 'ruby-devel' ]
+          $nokogiri_gem_ver = 'installed'
+        }
+        default: {
+          fail('Versions 6 and 7 of RHEL-based systems are supported')
+        }
+      }
+    }
+    'Debian': {
+      case $::lsbmajdistrelease {
+        '12.04': {
+          $gem_package_deps = [ 'rubygems', 'libxslt-dev', 'libxml2-dev' ]
+          $nokogiri_gem_ver = '1.5.11'
+        }
+        '14.04': {
+          $gem_package_deps = [ 'ruby-dev', 'libxml2-dev', 'libxslt-dev' ]
+          $nokogiri_gem_ver = '1.6.1'
+        }
+        default: {
+          fail('Versions 12.04 and 14.04 of Ubuntu systems are supported')
+        }
+      }
+    }
+    default: {
+      fail("${::osfamily} is not supported by ec2hostname")
+    }
+  }
 }

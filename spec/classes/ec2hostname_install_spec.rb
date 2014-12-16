@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'ec2hostname::install', :type => :class do
+  let(:facts) { { :osfamily => 'Redhat', :operatingsystemmajrelease => '7' } }
   let(:pre_condition) { 'class { "ec2hostname":
     aws_key     => "abc",
     aws_secret  => "def",
