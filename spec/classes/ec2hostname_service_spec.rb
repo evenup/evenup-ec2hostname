@@ -1,9 +1,10 @@
 require 'spec_helper'
 
-describe 'ec2hostname::service', :type => :class do
+describe 'ec2hostname' do
+  let(:facts) { { :osfamily => 'RedHat', :operatingsystemmajrelease => '7' } }
 
   context 'default' do
-    let(:pre_condition) { [ "class ec2hostname { $service = 'running' $enable = true }", "include ec2hostname" ] }
+    let(:params) { { :aws_key => 'a', :aws_secret => 'b', :zone => 'us-east-1' } }
     it { should contain_service('ec2hostname').with(
       :ensure => 'running',
       :enable => true
@@ -11,7 +12,7 @@ describe 'ec2hostname::service', :type => :class do
   end
 
   context 'configure service settings' do
-    let(:pre_condition) { [ "class ec2hostname { $service = 'stopped' $enable = false }", "include ec2hostname" ] }
+    let(:params) { { :aws_key => 'a', :aws_secret => 'b', :zone => 'us-east-1', :service => 'stopped', :enable => false } }
     it { should contain_service('ec2hostname').with(
       :ensure => 'stopped',
       :enable => false

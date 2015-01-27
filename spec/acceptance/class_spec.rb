@@ -3,12 +3,6 @@ require 'spec_helper_acceptance'
 describe 'ec2hostname' do
 
   context 'server' do
-#    case fact('osfamily')
-#    when 'RedHat'
-#      shell('yum -y install ruby-devel')
-#    when 'Debian'
-#      package_name = 'auditd'
-#    end
 
     it 'should work idempotently with no errors' do
       pp = <<-EOS
