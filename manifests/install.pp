@@ -7,22 +7,13 @@
 #
 # * Justin Lambert <mailto:jlambert@letsevenup.com>
 #
-#
-# === Copyright
-#
-# Copyright 2014 EvenUp.
-#
 class ec2hostname::install (
-  $aws_key,
-  $aws_secret,
-  $hostname,
-  $domain,
-  $ttl,
-  $type,
-  $target,
-  $zone,
   $install_gem = $::ec2hostname::install_gem,
 ) {
+
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
 
   include ::ec2hostname::params
 
@@ -33,7 +24,7 @@ class ec2hostname::install (
       before => Package['nokogiri'],
     }
 
-    # Nokogiri is defined to ensure a ruby 1.8.7 version is installed if needed
+    # Nokogiri is defined to ensure a ruby 1.8.7 version if needed
     package { 'nokogiri':
       ensure   => $::ec2hostname::params::nokogiri_gem_ver,
       provider => 'gem',
@@ -46,11 +37,23 @@ class ec2hostname::install (
     }
   }
 
-  file { '/etc/init.d/ec2hostname':
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0550',
-    content => template('ec2hostname/ec2hostname.erb'),
+  if $::ec2hostname::systemd {
+    file { '/usr/lib/systemd/system/ec2hostname.service':
+      ensure => 'file',
+      source => 'puppet:///ec2hostname/ec2hostname.service',
+    }
+  } else {
+    file { '/etc/init.d/ec2hostname':
+      ensure => 'file',
+      source => 'puppet:///ec2hostname/ec2hostname.init',
+    }
+  }
+
+  file { '/usr/local/sbin/ec2hostname':
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0554',
+    source => 'puppet:///ec2hostname/ec2hostname',
   }
 
 }

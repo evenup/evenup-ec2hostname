@@ -1,42 +1,64 @@
 require 'spec_helper'
 
-describe 'ec2hostname::install', :type => :class do
-  let(:facts) { { :osfamily => 'Redhat', :operatingsystemmajrelease => '7' } }
-  let(:pre_condition) { 'class { "ec2hostname":
-    aws_key     => "abc",
-    aws_secret  => "def",
-    hostname    => "myhost",
-    domain      => "mydomain.com",
-    ttl         => 60,
-    type        => "CNAME",
-    target      => "local-hostname",
-    zone        => "123",
-    }'
-  }
+describe 'ec2hostname' do
+  context 'CentOS 6' do
+    let(:facts) { { :osfamily => 'Redhat', :operatingsystemmajrelease => '6' } }
 
-  context 'aws-sdk gem' do
-    context 'not install by default' do
+    context 'not installing gems (default)' do
+      let(:params) { { :aws_key => 'a', :aws_secret => 'b', :zone => 'us-east-1' } }
       it { should_not contain_package('aws-sdk') }
     end
 
-    context 'install with install_gem' do
-      let(:pre_condition) { 'class { "ec2hostname":
-        aws_key     => "abc",
-        aws_secret  => "def",
-        hostname    => "myhost",
-        domain      => "mydomain.com",
-        ttl         => 60,
-        type        => "CNAME",
-        target      => "local-hostname",
-        zone        => "123",
-        install_gem => true,
-        }'
-      }
+    context 'installing gems' do
+      let(:params) { { :aws_key => 'a', :aws_secret => 'b', :zone => 'us-east-1', :install_gem => true } }
+      it { should contain_package('ruby-devel') }
       it { should contain_package('aws-sdk').with(:provider => 'gem') }
     end
   end
 
-  context 'install the init script' do
-    it { should contain_file('/etc/init.d/ec2hostname') }
+  context 'Centos 7' do
+    let(:facts) { { :osfamily => 'Redhat', :operatingsystemmajrelease => '7' } }
+
+    context 'not installing gems (default)' do
+      let(:params) { { :aws_key => 'a', :aws_secret => 'b', :zone => 'us-east-1' } }
+      it { should_not contain_package('aws-sdk') }
+    end
+
+    context 'installing gems' do
+      let(:params) { { :aws_key => 'a', :aws_secret => 'b', :zone => 'us-east-1', :install_gem => true } }
+      it { should contain_package('ruby-devel') }
+      it { should contain_package('aws-sdk').with(:provider => 'gem') }
+    end
   end
+
+  context 'Ubuntu 12.04' do
+    let(:facts) { { :osfamily => 'Debian', :lsbmajdistrelease => '12.04' } }
+
+    context 'not installing gems (default)' do
+      let(:params) { { :aws_key => 'a', :aws_secret => 'b', :zone => 'us-east-1' } }
+      it { should_not contain_package('aws-sdk') }
+    end
+
+    context 'installing gems' do
+      let(:params) { { :aws_key => 'a', :aws_secret => 'b', :zone => 'us-east-1', :install_gem => true } }
+      it { should contain_package('rubygems') }
+      it { should contain_package('aws-sdk').with(:provider => 'gem') }
+    end
+  end
+
+  context 'Ubunto 14.04' do
+    let(:facts) { { :osfamily => 'Debian', :lsbmajdistrelease => '14.04' } }
+
+    context 'not installing gems (default)' do
+      let(:params) { { :aws_key => 'a', :aws_secret => 'b', :zone => 'us-east-1' } }
+      it { should_not contain_package('aws-sdk') }
+    end
+
+    context 'installing gems' do
+      let(:params) { { :aws_key => 'a', :aws_secret => 'b', :zone => 'us-east-1', :install_gem => true } }
+      it { should contain_package('ruby-dev') }
+      it { should contain_package('aws-sdk').with(:provider => 'gem') }
+    end
+  end
+
 end

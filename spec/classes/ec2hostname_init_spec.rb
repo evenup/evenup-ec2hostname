@@ -7,6 +7,7 @@ describe 'ec2hostname', :type => :class do
   it { should create_class('ec2hostname') }
 
   it { should contain_class('ec2hostname::install') }
+  it { should contain_class('ec2hostname::config') }
   it { should contain_class('ec2hostname::service') }
 
   context 'fail if ttl is not an integer' do

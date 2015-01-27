@@ -12,11 +12,6 @@
 #
 # * Justin Lambert <mailto:jlambert@letsevenup.com>
 #
-#
-# === Copyright
-#
-# Copyright 2014 EvenUp.
-#
 class ec2hostname (
   $aws_key,
   $aws_secret,
@@ -29,6 +24,7 @@ class ec2hostname (
   $target       = $::ec2hostname::params::target,
   $service      = $::ec2hostname::params::service,
   $enable       = $::ec2hostname::params::enable,
+  $systemd      = $::ec2hostname::params::systemd,
 ) inherits ec2hostname::params {
 
   if ( !is_integer($ttl) ) {
@@ -39,7 +35,8 @@ class ec2hostname (
   validate_re($type, [ '^[aA]$', '^[cC][nN][aA][mM][eE]$'])
 
   anchor { 'ec2hostname::begin': } ->
-  class { 'ec2hostname::install':
+  class { 'ec2hostname::install': } ->
+  class { 'ec2hostname::config':
     aws_key    => $aws_key,
     aws_secret => $aws_secret,
     hostname   => $hostname,
@@ -48,7 +45,7 @@ class ec2hostname (
     type       => $type,
     target     => $target,
     zone       => $zone,
-    } ~>
+  } ~>
   class { 'ec2hostname::service': } ->
   anchor { 'ec2hostname::end': }
 

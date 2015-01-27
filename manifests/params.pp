@@ -7,11 +7,6 @@
 #
 # * Justin Lambert <mailto:jlambert@letsevenup.com>
 #
-#
-# === Copyright
-#
-# Copyright 2014 EvenUp.
-#
 class ec2hostname::params {
 
   $install_gem = false
@@ -29,10 +24,12 @@ class ec2hostname::params {
         '6': {
           $gem_package_deps = [ 'ruby-devel', 'libxml2-devel', 'libxslt-devel' ]
           $nokogiri_gem_ver = '1.5.11'
+          $systemd = false
         }
         '7': {
           $gem_package_deps = [ 'ruby-devel' ]
           $nokogiri_gem_ver = 'installed'
+          $systemd = true
         }
         default: {
           fail('Versions 6 and 7 of RHEL-based systems are supported')
@@ -40,6 +37,7 @@ class ec2hostname::params {
       }
     }
     'Debian': {
+      $systemd = false
       case $::lsbmajdistrelease {
         '12.04': {
           $gem_package_deps = [ 'rubygems', 'libxslt-dev', 'libxml2-dev' ]

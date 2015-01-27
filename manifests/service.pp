@@ -7,12 +7,11 @@
 #
 # * Justin Lambert <mailto:jlambert@letsevenup.com>
 #
-#
-# === Copyright
-#
-# Copyright 2014 EvenUp.
-#
 class ec2hostname::service {
+
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
 
   service { 'ec2hostname':
     ensure => $::ec2hostname::service,
