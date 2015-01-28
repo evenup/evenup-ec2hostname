@@ -7,7 +7,7 @@ require 'net/http'
 hostname = ENV['HOSTNAME']
 domain = ENV['DOMAIN']
 zone = ENV['ZONE']
-ttl = ENV['TTL']
+ttl = ENV['TTL'].to_i
 type = ENV['TYPE']
 target = ENV['TARGET']
 
