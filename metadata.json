@@ -1,6 +1,6 @@
 {
   "name": "evenup-ec2hostname",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Justin Lambert <jlambert@letsevenup.com>",
   "license": "Apache-2.0",
   "summary": "A module to register EC2 nodes in an internal Route53 zone",
