@@ -40,12 +40,12 @@ class ec2hostname::install (
   if $::ec2hostname::systemd {
     file { '/usr/lib/systemd/system/ec2hostname.service':
       ensure => 'file',
-      source => 'puppet:///ec2hostname/ec2hostname.service',
+      source => 'puppet:///modules/ec2hostname/ec2hostname.service',
     }
   } else {
     file { '/etc/init.d/ec2hostname':
       ensure => 'file',
-      source => 'puppet:///ec2hostname/ec2hostname.init',
+      source => 'puppet:///modules/ec2hostname/ec2hostname.init',
     }
   }
 
@@ -53,7 +53,7 @@ class ec2hostname::install (
     owner  => 'root',
     group  => 'root',
     mode   => '0554',
-    source => 'puppet:///ec2hostname/ec2hostname',
+    source => 'puppet:///modules/ec2hostname/ec2hostname',
   }
 
 }
