@@ -34,9 +34,9 @@ class ec2hostname (
   validate_re($service, [ '^running$', '^stopped$'])
   validate_re($type, [ '^[aA]$', '^[cC][nN][aA][mM][eE]$'])
 
-  anchor { 'ec2hostname::begin': } ->
-  class { 'ec2hostname::install': } ->
-  class { 'ec2hostname::config':
+  anchor { '::ec2hostname::begin': } ->
+  class { '::ec2hostname::install': } ->
+  class { '::ec2hostname::config':
     aws_key    => $aws_key,
     aws_secret => $aws_secret,
     hostname   => $hostname,
@@ -46,7 +46,7 @@ class ec2hostname (
     target     => $target,
     zone       => $zone,
   } ~>
-  class { 'ec2hostname::service': } ->
-  anchor { 'ec2hostname::end': }
+  class { '::ec2hostname::service': } ->
+  anchor { '::ec2hostname::end': }
 
 }
